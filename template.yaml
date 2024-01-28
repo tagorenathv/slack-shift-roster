@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  slack-shift-roster
+  SAM Template for slack-shift-roster backend & infra
+
+Globals:
+  Function:
+    Timeout: 3
+Resources:
+  ShiftRostersDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: shift-rosters
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+  ShiftRostersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: code/
+      Description: ""
+      MemorySize: 128
+      Timeout: 3
+      Handler: app.lambda_handler
+      Runtime: python3.10
+      Architectures:
+        - arm64
+      FunctionUrlConfig:
+        AuthType: NONE
+        InvokeMode: BUFFERED
+        Cors:
+          AllowCredentials: false
+          AllowMethods:
+            - POST
+            - GET
+          AllowOrigins:
+            - "*"
+      Policies:
+        - AWSLambdaExecute
+        - AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          SLACK_BOT_TOKEN: <slack bot token> # add your slack bot token here
+
+Outputs:
+  ShiftRostersFunctionUrlEndpoint:
+    Description: "URL of the Shift Rosters function"
+    Value:
+      Fn::GetAtt: ShiftRostersFunctionUrl.FunctionUrl
+  ShiftRostersFunction:
+    Description: "Shift Rosters Lambda Function ARN"
+    Value: !GetAtt ShiftRostersFunction.Arn
+  ShiftRostersFunctionIamRole:
+    Description: "Implicit IAM Role created for Shift Rosters function"
+    Value: !GetAtt ShiftRostersFunctionRole.Arn
