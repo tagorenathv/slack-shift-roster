@@ -448,7 +448,7 @@ def get_welcome_message_blocks(user_id):
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": ":bulb: You can manage your rotations, create new ones, and update existing rotations by mentioning this app.\nFor example, to rotate a user, you can mention the app followed by 'rotate [rotation_name]'."
+                "text": ":bulb: You can manage your rotations, create new ones, and update existing rotations by mentioning this app.\nFor example, to rotate a user, you can mention the app followed by `rotate [rotation_name]`."
             }
         },
         {
@@ -464,15 +464,16 @@ def get_welcome_message_blocks(user_id):
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": ":information_source: *Tip:* Rotation App uses Slack's User Group feature to create an @mention for every rotation. Please make sure you have it enabled for everyone in the [workspace settings](https://slack.com/help/articles/212906697-Create-and-manage-user-groups)."
+                "text": ":information_source: *Tip:* Rotation App uses Slack's User Group feature to create an @mention for every rotation. Please make sure you have it enabled for everyone in the <https://slack.com/help/articles/212906697-Create-and-manage-user-groups|workspace settings>."
             }
         },
         {
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": ":email: If you have any questions or feedback, feel free to reach out [here](https://github.com/tagorenathv/slack-shift-roster/issues). Have fun!"
+                "text": ":email: If you have any questions or feedback, feel free to reach out <https://github.com/tagorenathv/slack-shift-roster/issues|here>. Have fun!"
             }
         }
+
     ]
 
