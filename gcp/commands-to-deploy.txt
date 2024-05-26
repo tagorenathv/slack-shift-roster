@@ -1,0 +1,16 @@
+gcloud functions deploy slack_interactions ^
+--gen2 ^
+--runtime python312 ^
+--trigger-http ^
+--allow-unauthenticated ^
+--entry-point slack_interactions ^
+--region us-central1
+
+
+gcloud functions deploy slack_events ^
+--gen2 ^
+--runtime python312 ^
+--trigger-http ^
+--allow-unauthenticated ^
+--entry-point slack_events ^
+--region us-central1

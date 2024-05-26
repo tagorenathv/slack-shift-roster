@@ -1,0 +1,6 @@
+functions-framework==3.*
+slack_bolt
+slack-sdk
+python-dotenv
+google-cloud-firestore
+google-cloud-scheduler
