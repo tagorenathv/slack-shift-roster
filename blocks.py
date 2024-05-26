@@ -212,6 +212,15 @@ def get_create_rotation_modal():
                 }
             },
             {
+                "type": "context",
+                "elements": [
+                    {
+                        "type": "mrkdwn",
+                        "text": "_Rotation names are case insensitive._"
+                    }
+                ]
+            },
+            {
                 "type": "section",
                 "block_id": "create_user_group_toggle",
                 "text": {
@@ -409,3 +418,61 @@ def get_edit_rotation_modal(rotation_name, current_channel, selected_users):
             }
         ]
     }
+
+def get_welcome_message_blocks(user_id):
+    return [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": f"Hey <@{user_id}>! :wave:\n\nI'm thrilled to be your rotation app! :tada:\n\nTo get started quickly, press the button below to create your first rotation:"
+            }
+        },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "➕ Create a rotation",
+                        "emoji": True
+                    },
+                    "value": "create_rotation",
+                    "action_id": "create_rotation_button",
+                    "style": "primary"
+                }
+            ]
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": ":bulb: You can manage your rotations, create new ones, and update existing rotations by mentioning this app.\nFor example, to rotate a user, you can mention the app followed by 'rotate [rotation_name]'."
+            }
+        },
+        {
+            "type": "image",
+            "image_url": "https://raw.githubusercontent.com/tagorenathv/slack-shift-roster/master/gcp/user-group-recommended-settings.png",
+            "alt_text": "user groups recommended settings",
+            "title": {
+                "type": "plain_text",
+                "text": "Recommended Settings"
+            }
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": ":information_source: *Tip:* Rotation App uses Slack's User Group feature to create an @mention for every rotation. Please make sure you have it enabled for everyone in the [workspace settings](https://slack.com/help/articles/212906697-Create-and-manage-user-groups)."
+            }
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": ":email: If you have any questions or feedback, feel free to reach out [here](https://github.com/tagorenathv/slack-shift-roster/issues). Have fun!"
+            }
+        }
+    ]
+

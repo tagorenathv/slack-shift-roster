@@ -6,7 +6,7 @@ from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from dotenv import load_dotenv
 import os
-from blocks import get_create_rotation_modal, get_delete_rotation_modal, get_edit_rotation_modal, get_rotation_blocks
+from blocks import get_create_rotation_modal, get_delete_rotation_modal, get_edit_rotation_modal, get_rotation_blocks, get_welcome_message_blocks
 from google.cloud import firestore
 
 logging.basicConfig(level=logging.INFO)
@@ -36,6 +36,9 @@ def slack_events(request):
             thread_ts = data.get("thread_ts", data.get("ts"))
             user_id = data.get("user")
             handle_app_mention(channel_id, user_id, thread_ts, text)
+        elif event_type == "app_home_opened":
+            user_id = data.get("user")
+            check_and_send_welcome_message(user_id)
 
     return jsonify({"status": "ok"})
 
@@ -577,3 +580,23 @@ def send_delete_confirmation_message(channel, rotation_name, success=True, error
         )
     except SlackApiError as e:
         logging.error(f"Error sending delete confirmation message: {e.response['error']}")
+
+### app_home : welcome 
+def check_and_send_welcome_message(user_id):
+    doc_ref = db.collection('welcome_messages').document(user_id)
+    doc = doc_ref.get()
+
+    if not doc.exists:
+        send_welcome_message(user_id)
+        doc_ref.set({'message_sent': True})
+
+def send_welcome_message(user_id):
+    try:
+        blocks = get_welcome_message_blocks(user_id)
+        client.chat_postMessage(
+            channel=user_id,
+            text="Hey there! :wave: I'm so happy you picked me as your rotation app :tada: To get you quickly started, press the button below to create your first rotation:",
+            blocks=blocks
+        )
+    except SlackApiError as e:
+        logging.error(f"Error sending welcome message: {e.response['error']}")
